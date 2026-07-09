@@ -4,22 +4,33 @@ LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1ebbd3e34237af26da5dc08a4e440464"
 
 SRC_URI = "git://github.com/radxa-pkg/aic8800.git;branch=main;protocol=https"
-SRCREV = "2bf2dc64bedaf3f0fcbcc206125afa5da8b3835b"
+SRCREV = "6ec370abfc029feeb9dfd2ad20a49fbc2cc4ae69"
 
-S = "${WORKDIR}/git"
+SRC_URI += "file://0001-fix-missing-vmalloc-header.patch"
 
 inherit module
 DEPENDS += "quilt-native"
+ERROR_QA:remove = "buildpaths"
 
 DRIVER_SRC_DIR = "${S}/src/SDIO/driver_fw/driver/aic8800"
 
 do_patch() {
     cd ${S}
+
+    # Fix line endings in problematic files before patching
+    bbnote "Converting line endings to Unix format..."
+    find ${S}/src/USB/driver_fw/drivers/aic8800/aic_load_fw -name "*.c" -o -name "*.h" | while read file; do
+        sed -i 's/\r$//' "$file"
+    done
+    find ${S}/src/USB/driver_fw/drivers/aic_btusb -name "*.c" -o -name "*.h" | while read file; do
+        sed -i 's/\r$//' "$file"
+    done
+
     if [ "$(quilt top 2>/dev/null)" == "No patches applied" ] || [ -z "$(quilt top 2>/dev/null)" ]; then
         bbnote "Applying quilt patches..."
         export QUILT_PATCHES=debian/patches
         export QUILT_SERIES_FILE=debian/patches/series
-        quilt push -a
+        quilt push -af
     else
         bbnote "Source already patched. Skipping quilt push."
     fi
