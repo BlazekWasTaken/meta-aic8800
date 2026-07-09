@@ -55,4 +55,3 @@ RPROVIDES:${PN} += "kernel-module-aic8800-btlpm-${KERNEL_VERSION}"
 RPROVIDES:${PN} += "kernel-module-aic8800-fdrv-${KERNEL_VERSION}"
 
 COMPATIBLE_MACHINE = "radxa-zero-3w"
-
