@@ -1,0 +1,19 @@
+Upstream-Status: Inappropriate [oe specific]
+
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+Subject: [PATCH] aic8800: include vmalloc header
+
+---
+ .../aic8800_bsp/aic8800d80n_compat.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/SDIO/driver_fw/driver/aic8800/aic8800_bsp/aic8800d80n_compat.c b/src/SDIO/driver_fw/driver/aic8800/aic8800_bsp/aic8800d80n_compat.c
+index 1234567..89abcde 100644
+--- a/src/SDIO/driver_fw/driver/aic8800/aic8800_bsp/aic8800d80n_compat.c
++++ b/src/SDIO/driver_fw/driver/aic8800/aic8800_bsp/aic8800d80n_compat.c
+@@ -1,2 +1,3 @@
+ #include "aic8800d80n_compat.h"
+ #include "aic_bsp_export.h"
++#include <linux/vmalloc.h>
+--
+2.34.1
